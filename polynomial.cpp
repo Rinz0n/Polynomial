@@ -1,7 +1,8 @@
 #include "polynomial.h"
 
-Polynomial::Polynomial() : head(nullptr), variable('\0') {}
+Polynomial::Polynomial() : head(nullptr), variable('\0') {}  // Конструктор по умолчанию
 
+// Конструктор копирования
 Polynomial::Polynomial(const Polynomial& other) : head(nullptr), variable(other.variable) {
     using namespace std;
     PolyNode* current = other.head;
@@ -11,6 +12,7 @@ Polynomial::Polynomial(const Polynomial& other) : head(nullptr), variable(other.
     }
 }
 
+// Оператор присваивания
 Polynomial& Polynomial::operator=(const Polynomial& other) {
     using namespace std;
     if (this != &other) {
@@ -25,10 +27,12 @@ Polynomial& Polynomial::operator=(const Polynomial& other) {
     return *this;
 }
 
+// Деструктор
 Polynomial::~Polynomial() {
     clear();
 }
 
+// Очистка списка
 void Polynomial::clear() {
     using namespace std;
     PolyNode* current = head;
@@ -41,23 +45,28 @@ void Polynomial::clear() {
     variable = '\0';
 }
 
+// Проверка на пустоту
 bool Polynomial::isEmpty() const {
     return head == nullptr;
 }
 
+// Получение переменной
 char Polynomial::getVariable() const {
     return variable;
 }
 
+// Проверка наличия переменной
 bool Polynomial::hasVariable() const {
     return variable != '\0';
 }
 
+// Проверка, является ли переданный символ c допустимой буквой для имени переменной в многочлене
 bool Polynomial::isVariableChar(char c) const {
     using namespace std;
     return isalpha(c) && c != '^' && c != '+' && c != '-';
 }
 
+// Определение переменной из строки
 char Polynomial::detectVariable(const std::string& str) const {
     using namespace std;
     for (char c : str) {
@@ -68,6 +77,7 @@ char Polynomial::detectVariable(const std::string& str) const {
     return '\0';
 }
 
+// Добавление члена в конец списка
 void Polynomial::addTerm(int coeff, int power) {
     if (coeff == 0) return;
 
@@ -84,6 +94,7 @@ void Polynomial::addTerm(int coeff, int power) {
     }
 }
 
+// Получение длины списка
 int Polynomial::getLength() const {
     int len = 0;
     PolyNode* current = head;
@@ -94,6 +105,7 @@ int Polynomial::getLength() const {
     return len;
 }
 
+// Получение узла по индексу
 PolyNode* Polynomial::getNodeAt(int index) const {
     if (index < 0) return nullptr;
     PolyNode* current = head;
@@ -103,6 +115,7 @@ PolyNode* Polynomial::getNodeAt(int index) const {
     return current;
 }
 
+// Парсинг строки в список
 void Polynomial::parseFromString(const std::string& str) {
     using namespace std;
     clear();
@@ -228,6 +241,7 @@ void Polynomial::parseFromString(const std::string& str) {
     }
 }
 
+// Сортировка по убыванию степени (пузырьком)
 void Polynomial::sortByPowerDesc() {
     if (head == nullptr || head->next == nullptr) return;
 
@@ -255,6 +269,7 @@ void Polynomial::sortByPowerDesc() {
     } while (swapped);
 }
 
+// Удаление нулевых членов
 void Polynomial::removeZeroTerms() {
     while (head != nullptr && head->coeff == 0) {
         PolyNode* temp = head;
@@ -276,6 +291,7 @@ void Polynomial::removeZeroTerms() {
     }
 }
 
+// Приведение подобных членов
 void Polynomial::combineLikeTerms() {
     if (head == nullptr) return;
 
@@ -313,6 +329,7 @@ void Polynomial::combineLikeTerms() {
     removeZeroTerms();
 }
 
+// Преобразование списка в строку
 std::string Polynomial::toString() const {
     using namespace std;
     if (head == nullptr) {
@@ -373,11 +390,13 @@ std::string Polynomial::toString() const {
     return result;
 }
 
+// Вывод многочлена на экран
 void Polynomial::show() const {
     using namespace std;
     cout << "Многочлен: " << toString() << endl;
 }
 
+// Загрузка из файла
 void Polynomial::loadFromFile(const std::string& filename) {
     using namespace std;
     ifstream file(filename);
@@ -396,6 +415,7 @@ void Polynomial::loadFromFile(const std::string& filename) {
     file.close();
 }
 
+// Дозапись в конец файла
 void Polynomial::appendToFile(const std::string& filename) {
     using namespace std;
     ofstream file(filename, ios::app);
